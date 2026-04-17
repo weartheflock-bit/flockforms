@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contributor Form — Flock</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --r: #7D1D3F;
+    --plum: #1C0A10;
+    --rose: #C9959F;
+    --blush: #FAF0F2;
+    --lt-rose: #F5E8EC;
+    --div: #E8D5DC;
+    --muted: #8A7070;
+    --green: #2D6A4F;
+    --green-bg: #F0FAF4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    background: var(--blush);
+    color: var(--plum);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 16px 60px;
+  }
+
+  /* Header */
+  .hdr {
+    background: var(--plum);
+    padding: 36px 32px 30px;
+    text-align: center;
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hdr::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(125,29,63,0.4) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hdr-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.18em;
+    display: block;
+    position: relative;
+  }
+
+  .hdr-tag {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-top: 5px;
+    display: block;
+    position: relative;
+  }
+
+  .hdr-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 18px;
+    font-weight: 400;
+    position: relative;
+  }
+
+  /* Form */
+  .form-body {
+    background: #fff;
+    border: 1px solid var(--div);
+    padding: 36px 40px;
+  }
+
+  .intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--muted);
+    border-left: 2px solid var(--rose);
+    padding-left: 16px;
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--r);
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--div);
+  }
+
+  .section-gap { margin-top: 32px; }
+
+  .field-group { margin-bottom: 20px; }
+
+  .field-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .field-group label .req { color: var(--r); margin-left: 2px; }
+
+  .field-group input,
+  .field-group select,
+  .field-group textarea {
+    width: 100%;
+    padding: 10px 13px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    border: 1px solid var(--div);
+    background: var(--blush);
+    color: var(--plum);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field-group input:focus,
+  .field-group select:focus,
+  .field-group textarea:focus {
+    border-color: var(--r);
+    background: #fff;
+  }
+
+  .field-group textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* Tier cards */
+  .tier-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .tier-card {
+    border: 1px solid var(--div);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: var(--blush);
+    position: relative;
+    display: block;
+  }
+
+  .tier-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .tier-card.selected {
+    border-color: var(--r);
+    background: var(--lt-rose);
+  }
+
+  .tier-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--plum);
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .tier-credit {
+    font-size: 13px;
+    color: var(--r);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .tier-brands {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .tier-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* Terms box */
+  .terms-box {
+    background: var(--lt-rose);
+    border: 1px solid var(--div);
+    padding: 20px 22px;
+    margin-top: 32px;
+    margin-bottom: 20px;
+  }
+
+  .terms-box-title {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--r);
+    margin-bottom: 14px;
+  }
+
+  .terms-list {
+    list-style: none;
+  }
+
+  .terms-list li {
+    font-size: 13px;
+    color: var(--plum);
+    padding: 5px 0 5px 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .terms-list li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--rose);
+  }
+
+  /* Checkboxes */
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    padding: 15px 17px;
+    border: 1px solid var(--div);
+    background: var(--blush);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 12px;
+  }
+
+  .check-row:hover { border-color: var(--rose); }
+  .check-row.checked { border-color: var(--r); background: var(--lt-rose); }
+
+  .check-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border: 1px solid var(--rose);
+    background: #fff;
+    cursor: pointer;
+    margin-top: 2px;
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    transition: background 0.15s;
+    border-radius: 0;
+  }
+
+  .check-row input[type="checkbox"]:checked {
+    background: var(--r);
+    border-color: var(--r);
+  }
+
+  .check-row input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: 1.5px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+  }
+
+  .check-label {
+    font-size: 13px;
+    color: var(--plum);
+    line-height: 1.6;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .check-label strong {
+    color: var(--r);
+    font-weight: 400;
+  }
+
+  /* Submit */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px 24px;
+    background: var(--r);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+    opacity: 0.35;
+    pointer-events: none;
+    margin-top: 20px;
+  }
+
+  .submit-btn.active { opacity: 1; pointer-events: all; }
+  .submit-btn.active:hover { background: var(--plum); }
+
+  /* Error states */
+  .field-group input.err,
+  .field-group select.err { border-color: #c0392b; }
+
+  .err-msg {
+    font-size: 11px;
+    color: #c0392b;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .err-msg.show { display: block; }
+
+  /* Success */
+  .success {
+    display: none;
+    background: #fff;
+    border: 1px solid var(--div);
+    padding: 48px 40px;
+    text-align: center;
+  }
+
+  .success-check {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: #fff;
+    font-size: 22px;
+  }
+
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--plum);
+    margin-bottom: 10px;
+  }
+
+  .success-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 400px;
+    margin: 0 auto 16px;
+  }
+
+  .success-ref {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--plum);
+    padding: 32px 40px;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.14em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .footer-meta {
+    font-size: 12px;
+    color: var(--rose);
+    letter-spacing: 0.06em;
+    line-height: 2;
+  }
+
+  .footer-meta a {
+    color: var(--rose);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,149,159,0.4);
+  }
+
+  @media (max-width: 540px) {
+    .hdr { padding: 28px 20px 24px; }
+    .hdr-brand { font-size: 28px; }
+    .form-body { padding: 24px 20px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .tier-cards { grid-template-columns: 1fr; }
+    footer { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hdr">
+    <span class="hdr-brand">FLOCK</span>
+    <span class="hdr-tag">The Occasion Wear Community</span>
+    <p class="hdr-title">Contributor Form</p>
+  </div>
+
+  <div class="form-body" id="formBody">
+
+    <p class="intro">Tell us about yourself and your dress. Once submitted we'll be in touch to confirm your credit and arrange the next steps.</p>
+
+    <p class="section-label">Your details</p>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Full name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Sarah Murphy" autocomplete="name">
+        <p class="err-msg" id="err-name">Please enter your name</p>
+      </div>
+      <div class="field-group">
+        <label>Email address <span class="req">*</span></label>
+        <input type="email" id="f-email" placeholder="you@example.com" autocomplete="email">
+        <p class="err-msg" id="err-email">Please enter a valid email</p>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Phone number</label>
+      <input type="tel" id="f-phone" placeholder="Optional" autocomplete="tel">
+    </div>
+
+    <p class="section-label section-gap">About your dress</p>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Brand <span class="req">*</span></label>
+        <input type="text" id="f-brand" placeholder="e.g. Karen Millen">
+        <p class="err-msg" id="err-brand">Please enter the brand</p>
+      </div>
+      <div class="field-group">
+        <label>Size <span class="req">*</span></label>
+        <select id="f-size">
+          <option value="">Select size</option>
+          <option>UK 6</option>
+          <option>UK 8</option>
+          <option>UK 10</option>
+          <option>UK 12</option>
+          <option>UK 14</option>
+          <option>UK 16</option>
+          <option>UK 18</option>
+          <option>UK 20</option>
+          <option>Other</option>
+        </select>
+        <p class="err-msg" id="err-size">Please select a size</p>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Colour / pattern</label>
+        <input type="text" id="f-colour" placeholder="e.g. Dusty rose floral">
+      </div>
+      <div class="field-group">
+        <label>Approx. original retail price <span class="req">*</span></label>
+        <input type="text" id="f-rrp" placeholder="e.g. €120">
+        <p class="err-msg" id="err-rrp">Please enter the approximate price</p>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Brief description</label>
+      <textarea id="f-desc" placeholder="e.g. Midi length, v-neck, worn once to a wedding in 2023. Excellent condition, no marks or pulls."></textarea>
+    </div>
+
+    <p class="section-label section-gap">Credit tier</p>
+
+    <div class="tier-cards">
+      <label class="tier-card" id="tc-entry" onclick="selectTier('entry')">
+        <input type="radio" name="tier" value="entry" id="t-entry">
+        <span class="tier-name">Entry tier</span>
+        <span class="tier-credit">€30 store credit</span>
+        <p class="tier-brands">ASOS, Zara, Mango, Club L, Monsoon, Hope & Ivy and similar</p>
+      </label>
+      <label class="tier-card" id="tc-mid" onclick="selectTier('mid')">
+        <input type="radio" name="tier" value="mid" id="t-mid">
+        <span class="tier-name">Mid tier</span>
+        <span class="tier-credit">€50 store credit</span>
+        <p class="tier-brands">Never Fully Dressed, Karen Millen, Coast, Mint Velvet, Dream Sister Jane and similar</p>
+      </label>
+    </div>
+    <p class="tier-note">If your dress is a higher-end brand — Rixo, Rotate, Reformation, Needle & Thread or similar — leave this blank and we'll discuss credit with you directly.</p>
+
+    <div class="terms-box">
+      <p class="terms-box-title">By submitting this form you confirm</p>
+      <ul class="terms-list">
+        <li>You are the rightful owner of the dress and are transferring ownership to Flock upon acceptance</li>
+        <li>You will receive store credit — not cash — to the value of your tier</li>
+        <li>Credit is non-cashable and valid for 12 months from the date of issue</li>
+        <li>Credit can only be used to rent from the Flock collection</li>
+        <li>Flock has permission to photograph and use images of the dress for any commercial purpose</li>
+        <li>Flock reserves the right to decline any dress that does not meet our curation standards</li>
+        <li>If declined, Flock will cover the cost of returning the dress to you</li>
+      </ul>
+    </div>
+
+    <label class="check-row" id="cr1">
+      <input type="checkbox" id="chk1" onchange="updateSubmit()">
+      <span class="check-label">I have read and agree to the <strong>Flock Contributor Terms</strong> summarised above and understand that ownership of my dress transfers to Flock upon acceptance.</span>
+    </label>
+
+    <label class="check-row" id="cr2">
+      <input type="checkbox" id="chk2" onchange="updateSubmit()">
+      <span class="check-label">I confirm that all details provided are accurate and that I am the rightful owner of the dress described.</span>
+    </label>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitForm()">Submit contribution</button>
+
+  </div>
+
+  <div class="success" id="successMsg">
+    <div class="success-check">✓</div>
+    <p class="success-title">Thank you!</p>
+    <p class="success-sub">We've received your contribution and will be in touch at <strong id="conf-email"></strong> to confirm your credit and arrange the next steps.</p>
+    <p class="success-ref" id="conf-ref"></p>
+  </div>
+
+  <footer>
+    <span class="footer-brand">FLOCK</span>
+    <p class="footer-meta">
+      The Occasion Wear Community<br>
+      <a href="mailto:weartheflock@gmail.com">weartheflock@gmail.com</a> &nbsp;·&nbsp; @weartheflock
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  function selectTier(t) {
+    document.getElementById('tc-entry').classList.toggle('selected', t === 'entry');
+    document.getElementById('tc-mid').classList.toggle('selected', t === 'mid');
+    document.getElementById('t-' + t).checked = true;
+    updateSubmit();
+  }
+
+  function updateSubmit() {
+    const c1 = document.getElementById('chk1').checked;
+    const c2 = document.getElementById('chk2').checked;
+    document.getElementById('cr1').classList.toggle('checked', c1);
+    document.getElementById('cr2').classList.toggle('checked', c2);
+    document.getElementById('submitBtn').classList.toggle('active', c1 && c2);
+  }
+
+  function validate() {
+    let ok = true;
+    const checks = [
+      ['f-name',  'err-name',  v => v.trim().length > 1],
+      ['f-email', 'err-email', v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)],
+      ['f-brand', 'err-brand', v => v.trim().length > 0],
+      ['f-size',  'err-size',  v => v !== ''],
+      ['f-rrp',   'err-rrp',   v => v.trim().length > 0],
+    ];
+    checks.forEach(([id, errId, test]) => {
+      const el = document.getElementById(id);
+      const err = document.getElementById(errId);
+      const valid = test(el.value);
+      el.classList.toggle('err', !valid);
+      err.classList.toggle('show', !valid);
+      if (!valid) ok = false;
+    });
+    return ok;
+  }
+
+  function submitForm() {
+    if (!validate()) return;
+    const email = document.getElementById('f-email').value;
+    const now = new Date();
+    const ref = 'FLK-' + now.getFullYear() +
+      ('0' + (now.getMonth() + 1)).slice(-2) +
+      ('0' + now.getDate()).slice(-2) + '-' +
+      Math.floor(Math.random() * 9000 + 1000);
+    document.getElementById('conf-email').textContent = email;
+    document.getElementById('conf-ref').textContent =
+      'Reference: ' + ref + ' · Submitted ' +
+      now.toLocaleDateString('en-IE', { day: 'numeric', month: 'long', year: 'numeric' });
+    document.getElementById('formBody').style.display = 'none';
+    const s = document.getElementById('successMsg');
+    s.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
